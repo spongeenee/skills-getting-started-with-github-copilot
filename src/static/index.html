@@ -15,9 +15,23 @@
     <main>
       <section id="activities-container">
         <h3>Available Activities</h3>
+        <style>
+          #participants-list {
+            list-style-type: none; /* Hide bullet points */
+            padding: 0;
+          }
+          .delete-icon {
+            cursor: pointer;
+            color: red;
+            margin-left: 10px;
+          }
+        </style>
         <div id="activities-list">
           <!-- Activities will be loaded here -->
           <p>Loading activities...</p>
+          <ul id="participants-list">
+            <!-- Participants will be listed here with delete icons -->
+          </ul>
         </div>
       </section>
 

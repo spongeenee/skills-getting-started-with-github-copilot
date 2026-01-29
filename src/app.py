@@ -20,6 +20,16 @@ app.mount("/static", StaticFiles(directory=os.path.join(Path(__file__).parent,
           "static")), name="static")
 
 # In-memory activity database
+
+@app.delete("/activities/{activity_name}/participants/{email}")
+async def delete_participant(activity_name: str, email: str):
+    for activity in activities:
+        if activity == activity_name:
+            if email in activities[activity]["participants"]:
+                activities[activity]["participants"].remove(email)
+                return {"message": f"Participant {email} removed from {activity_name} successfully."}
+            raise HTTPException(status_code=404, detail="Participant not found")
+    raise HTTPException(status_code=404, detail="Activity not found")
 activities = {
     "Tennis Club": {
         "description": "Learn tennis skills and compete in matches",
@@ -28,6 +38,8 @@ activities = {
         "participants": ["alex@mergington.edu"]
         },
         "Basketball Team": {
+            "delete_participant": True,  # Flag to indicate if a participant can be deleted
+
         "description": "Join our competitive basketball team",
         "schedule": "Tuesdays and Thursdays, 4:00 PM - 5:30 PM",
         "max_participants": 15,
